@@ -18,21 +18,28 @@
         }
 
         #main {
-            width: 30%;
-            margin: 20rem auto 0rem;
+            width: 50%;
+            margin: 8rem auto 0rem;
         }
 
         #main>img {
-            margin: 0rem 10%;
+            margin: 0rem 25%;
             height: 15rem;
-            width: 80%;
+            width: 50%;
         }
 
         #inputDiv {
-            border: 0.1rem solid rgb(214, 209, 209);
-            margin: auto;
-            width: 100%;
+            margin: 4rem auto 0rem;
+            font-size: 3rem;
+            width: 80%;
+            max-height: 60rem;
             border-radius: 5rem;
+            border: 0.1rem solid rgb(214, 209, 209);
+            overflow: hidden;
+        }
+
+        #inputDiv:hover {
+            box-shadow: 0rem 0.1rem 0.6rem rgb(126, 121, 121);
         }
 
         #search {
@@ -45,9 +52,10 @@
         }
 
         #inputDiv img {
-            margin: 1.75rem auto;
+            margin: 2rem auto;
             width: 2.5rem;
             height: 2.5rem;
+            cursor: pointer;
         }
 
         #logout {
@@ -55,7 +63,16 @@
             font-size: 3rem;
             margin: 2rem 4rem;
             cursor: pointer;
-            color: rgb(112, 111, 111);
+            color: rgb(60, 132, 244);
+        }
+
+        #result div {
+            padding: 2rem 4rem;
+            cursor: pointer;
+        }
+
+        #result div:hover {
+            background-color: rgb(201, 198, 198);
         }
     </style>
 </head>
@@ -70,15 +87,74 @@
                 <input type="text" oninput="throttleFuction()" id="search">
                 <img src="./images/audio.svg" />
             </div>
-            <div id="chartcter"></div>
+            <div id="result"></div>
         </div>
     </div>
 </body>
 
 </html>
 <script>
-    function logout() {
+    let result_div = document.getElementById("result");
 
+    var timerId;
+
+    async function serchChart() {
+        let search = document.getElementById("search").value;
+
+        if (search.length <= 2) {
+            return false;
+        }
+        try {
+            let res = await fetch(`http://api.serpstack.com/search?access_key=3e038d198a3a5c1890f94be2e270cd22&query=${search}`);
+            let data = await res.json();
+
+            return data.organic_results;
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    function throttleFuction() {
+
+        if (timerId) {
+            return false;
+        }
+        timerId = setTimeout(() => {
+            main();
+            timerId = undefined;
+        }, 1000);
+
+    }
+
+    function appendMovies(d) {
+        result_div.innerHTML = null;
+        d.forEach(({ title }) => {
+            let div = document.createElement("div");
+            div.addEventListener('click', () => {
+                window.location.href = `https://www.google.com/search?q=${title}`;
+            });
+
+            let search = document.createElement("img");
+            search.src = "./images/search.svg"
+
+            let titl = document.createElement("p");
+            titl.innerText = title;
+
+            div.append(titl);
+            result_div.append(div);
+
+        })
+    }
+
+    async function main() {
+        let result = await serchChart();
+
+        appendMovies(result);
+
+    }
+
+    function logout() {
         window.location.href = "./login.html"
     }
 </script>

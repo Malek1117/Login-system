@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google</title>
+    <link rel="shortcut icon" href="./images/g1.svg" />
+    <style>
+        * {
+            margin: 0;
+            text-decoration: none;
+            list-style: none;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        :root {
+            font-size: 62.5%;
+        }
+
+        #main {
+            width: 30%;
+            margin: 20rem auto 0rem;
+        }
+
+        #main>img {
+            margin: 0rem 10%;
+            height: 15rem;
+            width: 80%;
+        }
+
+        #inputDiv {
+            border: 0.1rem solid rgb(214, 209, 209);
+            margin: auto;
+            width: 100%;
+            border-radius: 5rem;
+        }
+
+        #search {
+            width: 80%;
+            height: 6rem;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            font-size: 3rem;
+        }
+
+        #inputDiv img {
+            margin: 1.75rem auto;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        #logout {
+            text-align: right;
+            font-size: 3rem;
+            margin: 2rem 4rem;
+            cursor: pointer;
+            color: rgb(112, 111, 111);
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id="logout" onclick="logout()">Log Out</h2>
+    <div id="main">
+        <img src="./images/google.png">
+        <div id="inputDiv">
+            <div style="display: flex; justify-content: space-between;">
+                <img src="./images/search.svg" />
+                <input type="text" oninput="throttleFuction()" id="search">
+                <img src="./images/audio.svg" />
+            </div>
+            <div id="chartcter"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    function logout() {
+
+        window.location.href = "./login.html"
+    }
+</script>
